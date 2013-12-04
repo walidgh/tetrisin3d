@@ -10,7 +10,7 @@
 
 //TODO clean up memory
 
-#define WAIT_TIME 500       // milliseconds between the movements
+#define WAIT_TIME 300       // milliseconds between the movements
 
 using namespace std;
 

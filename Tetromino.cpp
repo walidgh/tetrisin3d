@@ -28,51 +28,72 @@ Tetromino::~Tetromino()
 */
 void Tetromino::NewShape()
 {
-        /**
-            Shapes [shape type][row][col]
-            Types:
-                square
-                T
-                I
-                L
-                S
-        */
-        unsigned int Shapes[5][4][4] = {
-            { {1, 1, 0, 0},
-              {1, 1, 0, 0},
-              {0, 0, 0, 0},
-              {0, 0, 0, 0} },
-            { {0, 1, 0, 0},
-              {1, 1, 1, 0},
-              {0, 0, 0, 0},
-              {0, 0, 0, 0} },
-            { {1, 0, 0, 0},
-              {1, 0, 0, 0},
-              {1, 0, 0, 0},
-              {1, 0, 0, 0} },
-            { {1, 0, 0, 0},
-              {1, 0, 0, 0},
-              {1, 0, 0, 0},
-              {1, 1, 0, 0} },
-            { {0, 1, 1, 0},
-              {1, 1, 0, 0},
-              {0, 0, 0, 0},
-              {0, 0, 0, 0} }
-        };
+    int rand = GetRand(0, 2);
 
-    int rand = GetRand(0, 4);
-
-    for(int row=0; row<4; row++)
+    if(rand == 0)       // Square
     {
-        for(int col=0; col<4; col++)
+        mShapeActual = 0;
+        mWidth = 2;
+        mHeight = 2;
+
+        unsigned int temp[2][2] = {{1, 1}, {1, 1}};
+
+        mShapeActual = new unsigned int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShapeActual[i] = new unsigned int[mWidth];
+
+        for(int row=0; row<mHeight; row++)
         {
-            mShapeActual[row][col] = Shapes[rand][row][col];
+            for(int col=0; col<mWidth; col++)
+            {
+                mShapeActual[row][col] = temp[row][col];
+            }
+        }
+    }
+    else if(rand == 1)       // I
+    {
+        mShapeActual = 0;
+        mWidth = 1;
+        mHeight = 4;
+
+        mShapeActual = new unsigned int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShapeActual[i] = new unsigned int[mWidth];
+
+        unsigned int temp[4][1] = {{1}, {1}, {1}, {1}};
+
+        for(int row=0; row<mHeight; row++)
+        {
+            for(int col=0; col<mWidth; col++)
+            {
+                mShapeActual[row][col] = temp[row][col];
+            }
+        }
+    }
+    else if(rand == 2)       // L
+    {
+        mShapeActual = 0;
+        mWidth = 2;
+        mHeight = 3;
+
+        mShapeActual = new unsigned int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShapeActual[i] = new unsigned int[mWidth];
+
+        unsigned int temp[3][2] = {{1, 0}, {1, 0}, {1, 1}};
+
+        for(int row=0; row<mHeight; row++)
+        {
+            for(int col=0; col<mWidth; col++)
+            {
+                mShapeActual[row][col] = temp[row][col];
+            }
         }
     }
 
     // Set shape start position
     mTopLeft.row = 0;
     mTopLeft.col = 4;
+
+    mPotentionalTopLeft.row = 1;
+    mPotentionalTopLeft.col = 4;
 
 }
 
@@ -81,24 +102,20 @@ unsigned int** Tetromino::getShape()
     return mShapeActual;
 }
 
-int Tetromino::getPositionCol()
+sPosition* Tetromino::getTopLeft()
 {
-    return mTopLeft.col;
+    return &mTopLeft;
 }
 
-int Tetromino::getPositionRow()
+sPosition* Tetromino::getPotentionalTopLeft()
 {
-    return mTopLeft.row;
-}
-
-int Tetromino::getPotentionalPositionRow()
-{
-    return mTopLeft.row + 1;
+    return &mPotentionalTopLeft;
 }
 
 void Tetromino::MoveDown()
 {
     mTopLeft.row += 1;
+    mPotentionalTopLeft.row += 1;
 }
 
 void Tetromino::MoveLeft()
@@ -114,4 +131,14 @@ void Tetromino::MoveRight()
 int Tetromino::GetRand(int a, int b)
 {
 	return rand () % (b - a + 1) + a;
+}
+
+int Tetromino::getWidth()
+{
+    return mWidth;
+}
+
+int Tetromino::getHeight()
+{
+    return mHeight;
 }

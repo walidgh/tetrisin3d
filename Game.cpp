@@ -13,12 +13,17 @@ Game::~Game()
 
 bool Game::CheckCollision()
 {
-    for (int row=0; row<4; row++)
+    for (int row=0; row<mTetromino->getHeight(); row++)
     {
-        for (int col = 0; col<4; col++) {
+        for (int col = 0; col<mTetromino->getWidth(); col++)
+        {
             if(mTetromino->getShape()[row][col] != 0)
             {
-                if (mBoard->GetLanded()[row + mTetromino->getPotentionalPositionRow()][col + mTetromino->getPositionCol()] != 0)
+                if(row + mTetromino->getPotentionalTopLeft()->row >= mBoard->GetRow())
+                {
+                    return true;
+                }
+                if (mBoard->GetLanded()[row + mTetromino->getPotentionalTopLeft()->row][col + mTetromino->getTopLeft()->col] != 0)
                 {
                     return true;
                 }

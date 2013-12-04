@@ -18,9 +18,10 @@ class Tetromino
 
         unsigned int** getShape();
 
-        int getPositionCol();
-        int getPositionRow();
-        int getPotentionalPositionRow();
+        sPosition* getTopLeft();
+        sPosition* getPotentionalTopLeft();
+        int getWidth();
+        int getHeight();
 
         void MoveDown();
         void MoveLeft();
@@ -35,6 +36,10 @@ class Tetromino
         unsigned int   **mShapeActual;
         unsigned int    *mShapeNext;
         sPosition        mTopLeft;
+        sPosition        mPotentionalTopLeft;
+
+        int mWidth;
+        int mHeight;
 };
 
 #endif // TETROMINO_H
