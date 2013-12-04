@@ -6,9 +6,12 @@
 #include "lib_3rd_party/glm/gtc/matrix_transform.hpp"
 #include "lib_3rd_party/shader.hpp"
 
-Graphics::Graphics(Tetromino *tetromino)
+// TODO move mTetromino and mBoard from private var to rendering args
+
+Graphics::Graphics(Tetromino *tetromino, Board *board)
 {
     mTetromino = tetromino;
+    mBoard     = board;
 }
 
 Graphics::~Graphics()
@@ -97,8 +100,9 @@ void Graphics::Rendering()
 {
     UpdateScreen();
 
-    float transX = mTetromino->getPosition()->col;
-    float transY = mTetromino->getPosition()->row;
+    // Draw moving tetromino
+    float transX = mTetromino->getPositionCol();
+    float transY = mTetromino->getPositionRow();
     unsigned int **shape = mTetromino->getShape();
 
     for(int row=0; row<4; row++)
@@ -107,7 +111,19 @@ void Graphics::Rendering()
         {
             if(shape[row][col] != 0)
             {
-                DrawSquare(float(row) + transX, float(col) + transY);
+                DrawSquare(col + transX, row + transY);
+            }
+        }
+    }
+
+    // Draw landed tetrominos
+    for(int row=0; row<mRow; row++)
+    {
+        for(int col=0; col<mCol; col++)
+        {
+            if(mBoard->GetLanded()[row][col] != 0)
+            {
+                DrawSquare(col, row);
             }
         }
     }

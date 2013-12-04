@@ -5,11 +5,12 @@
 #include <GL/glew.h>
 
 #include "Tetromino.h"
+#include "Board.h"
 
 class Graphics
 {
     public:     // functions
-        Graphics(Tetromino *tetromino);
+        Graphics(Tetromino *tetromino, Board *board);
         ~Graphics();
 
         bool InitGraphics(int scale, int row, int col);
@@ -23,6 +24,7 @@ class Graphics
     private:    // variables
 
         Tetromino *mTetromino;
+        Board     *mBoard;
 
         // Display settings
         int mScreenWidth;

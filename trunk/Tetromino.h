@@ -3,8 +3,8 @@
 
 struct sPosition
 {
-    unsigned int row;
-    unsigned int col;
+    int row;
+    int col;
 };
 
 class Tetromino
@@ -17,11 +17,18 @@ class Tetromino
         void NewShape();
 
         unsigned int** getShape();
-        sPosition*    getPosition();
 
-    public:     // variables
+        int getPositionCol();
+        int getPositionRow();
+        int getPotentionalPositionRow();
 
+        void MoveDown();
+        void MoveLeft();
+        void MoveRight();
 
+    private:    // functions
+
+        int GetRand(int a, int b);
 
     private:    // variables
 
