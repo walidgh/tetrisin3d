@@ -101,13 +101,13 @@ void Graphics::Rendering()
     UpdateScreen();
 
     // Draw moving tetromino
-    float transX = mTetromino->getPositionCol();
-    float transY = mTetromino->getPositionRow();
+    float transX = mTetromino->getTopLeft()->col;
+    float transY = mTetromino->getTopLeft()->row;
     unsigned int **shape = mTetromino->getShape();
 
-    for(int row=0; row<4; row++)
+    for(int row=0; row<mTetromino->getHeight(); row++)
     {
-        for(int col=0; col<4; col++)
+        for(int col=0; col<mTetromino->getWidth(); col++)
         {
             if(shape[row][col] != 0)
             {
