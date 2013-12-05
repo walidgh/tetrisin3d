@@ -11,7 +11,7 @@ Game::~Game()
     //dtor
 }
 
-bool Game::CheckCollision()
+bool Game::CheckCollisionWithLanded()
 {
     for (int row=0; row<mTetromino->getHeight(); row++)
     {
@@ -19,16 +19,83 @@ bool Game::CheckCollision()
         {
             if(mTetromino->getShape()[row][col] != 0)
             {
-                if(row + mTetromino->getPotentionalTopLeft()->row >= mBoard->GetRow())
+                if(row + mTetromino->getPotentialTopLeft()->row >= mBoard->GetRow())
                 {
+                    //this block would be below the playing field
                     return true;
                 }
-                if (mBoard->GetLanded()[row + mTetromino->getPotentionalTopLeft()->row][col + mTetromino->getTopLeft()->col] != 0)
+                if (mBoard->GetLanded()[row + mTetromino->getPotentialTopLeft()->row][col + mTetromino->getTopLeft()->col] != 0)
                 {
+                    //the space is taken
                     return true;
                 }
             }
          }
+    }
+
+    return false;
+}
+
+bool Game::CheckCollisionWithBorder()
+{
+    for (int row=0; row<mTetromino->getHeight(); row++)
+    {
+        for (int col = 0; col<mTetromino->getWidth(); col++)
+        {
+            if(mTetromino->getShape()[row][col] != 0)
+            {
+                if(col + mTetromino->getPotentialTopLeft()->col < 0)
+                {
+                    //this block would be to the left of the playing field
+                    return true;
+                }
+                if(col + mTetromino->getPotentialTopLeft()->col >= mBoard->GetCol())
+                {
+                    //this block would be to the right of the playing field
+                    return true;
+                }
+                if (mBoard->GetLanded()[row + mTetromino->getPotentialTopLeft()->row][col + mTetromino->getPotentialTopLeft()->col] != 0)
+                {
+                    //the space is taken
+                    return true;
+                }
+            }
+         }
+    }
+
+    return false;
+}
+
+bool Game::CheckCollisionWhenRotated()
+{
+    for(int row=0; row<mTetromino->getPotentialHeight(); row++)
+    {
+        for(int col=0; col<mTetromino->getPotentialWidth(); col++)
+        {
+            if(mTetromino->getPotentialShape()[row][col] != 0)
+            {
+                if(col + mTetromino->getTopLeft()->col < 0)
+                {
+                    //this block would be to the left of the playing field
+                    return true;
+                }
+                if(col + mTetromino->getTopLeft()->col >= mBoard->GetCol())
+                {
+                    //this block would be to the right of the playing field
+                    return true;
+                }
+                if(row + mTetromino->getTopLeft()->row >= mBoard->GetRow())
+                {
+                    //this block would be below the playing field
+                    return true;
+                }
+                if(mBoard->GetLanded()[row + mTetromino->getTopLeft()->row][col + mTetromino->getTopLeft()->col] != 0)
+                {
+                    //the space is taken
+                    return true;
+                }
+            }
+        }
     }
 
     return false;

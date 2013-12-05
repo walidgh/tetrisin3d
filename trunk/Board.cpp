@@ -55,3 +55,8 @@ int Board::GetRow()
 {
     return mRow;
 }
+
+int Board::GetCol()
+{
+    return mCol;
+}

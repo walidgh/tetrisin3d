@@ -1,5 +1,5 @@
 #include "EventManager.h"
-
+#include <iostream>
 EventManager::EventManager()
 {
     for(int i=0; i<400; i++)
@@ -43,6 +43,13 @@ void EventManager::PollEvents()
         default:
             break;
     }
+}
+
+SDL_Event* EventManager::PollEvents2()
+{
+    SDL_PollEvent(&mSDLevent);
+
+    return &mSDLevent;
 }
 
 bool EventManager::isActualEvent(Events event)

@@ -24,6 +24,7 @@ class EventManager
         ~EventManager();
 
         void PollEvents();
+        SDL_Event* PollEvents2();
 
         bool isActualEvent(Events event);
 
