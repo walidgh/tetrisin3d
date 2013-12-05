@@ -17,15 +17,21 @@ class Tetromino
         void NewShape();
 
         unsigned int** getShape();
+        unsigned int** getPotentialShape();
 
         sPosition* getTopLeft();
-        sPosition* getPotentionalTopLeft();
+        sPosition* getPotentialTopLeft();
+
         int getWidth();
         int getHeight();
+        int getPotentialWidth();
+        int getPotentialHeight();
 
-        void MoveDown();
-        void MoveLeft();
-        void MoveRight();
+        void RotatePotential();
+
+        void Rotate();
+        void Move();
+
 
     private:    // functions
 
@@ -34,12 +40,14 @@ class Tetromino
     private:    // variables
 
         unsigned int   **mShapeActual;
-        unsigned int    *mShapeNext;
+        unsigned int   **mPotentialShape;
         sPosition        mTopLeft;
-        sPosition        mPotentionalTopLeft;
+        sPosition        mPotentialTopLeft;
 
         int mWidth;
         int mHeight;
+        int mPotentialWidth;
+        int mPotentialHeight;
 };
 
 #endif // TETROMINO_H

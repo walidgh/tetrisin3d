@@ -11,7 +11,9 @@ class Game
         Game(Tetromino *tetromino, Board *board);
         ~Game();
 
-        bool CheckCollision();
+        bool CheckCollisionWithLanded();
+        bool CheckCollisionWithBorder();
+        bool CheckCollisionWhenRotated();
 
     private:    // variables
 

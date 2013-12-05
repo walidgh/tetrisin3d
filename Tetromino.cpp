@@ -92,8 +92,8 @@ void Tetromino::NewShape()
     mTopLeft.row = 0;
     mTopLeft.col = 4;
 
-    mPotentionalTopLeft.row = 1;
-    mPotentionalTopLeft.col = 4;
+    mPotentialTopLeft.row = 0;
+    mPotentialTopLeft.col = 4;
 
 }
 
@@ -102,30 +102,19 @@ unsigned int** Tetromino::getShape()
     return mShapeActual;
 }
 
+unsigned int** Tetromino::getPotentialShape()
+{
+    return mPotentialShape;
+}
+
 sPosition* Tetromino::getTopLeft()
 {
     return &mTopLeft;
 }
 
-sPosition* Tetromino::getPotentionalTopLeft()
+sPosition* Tetromino::getPotentialTopLeft()
 {
-    return &mPotentionalTopLeft;
-}
-
-void Tetromino::MoveDown()
-{
-    mTopLeft.row += 1;
-    mPotentionalTopLeft.row += 1;
-}
-
-void Tetromino::MoveLeft()
-{
-    mTopLeft.col -= 1;
-}
-
-void Tetromino::MoveRight()
-{
-    mTopLeft.col += 1;
+    return &mPotentialTopLeft;
 }
 
 int Tetromino::GetRand(int a, int b)
@@ -141,4 +130,47 @@ int Tetromino::getWidth()
 int Tetromino::getHeight()
 {
     return mHeight;
+}
+
+int Tetromino::getPotentialWidth()
+{
+    return mPotentialWidth;
+}
+
+int Tetromino::getPotentialHeight()
+{
+    return mPotentialHeight;
+}
+
+void Tetromino::RotatePotential()
+{
+    mPotentialWidth  = mHeight;
+    mPotentialHeight = mWidth;
+
+    mPotentialShape = 0;
+    mPotentialShape = new unsigned int*[mPotentialHeight];
+    for(int i=0; i<mPotentialHeight; i++) mPotentialShape[i] = new unsigned int[mPotentialWidth];
+
+    int r = 0;
+    for(int row=mHeight-1; row>=0; row--)
+    {
+        for(int col=0; col<mWidth; col++)
+        {
+            mPotentialShape[col][r] = mShapeActual[row][col];
+        }
+        r++;
+    }
+
+}
+
+void Tetromino::Rotate()
+{
+    mHeight = mPotentialHeight;
+    mWidth  = mPotentialWidth;
+    mShapeActual = mPotentialShape;
+}
+
+void Tetromino::Move()
+{
+    mTopLeft = mPotentialTopLeft;
 }

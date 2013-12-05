@@ -14,6 +14,7 @@ class Board
         unsigned int** GetLanded();
         void LandShape(Tetromino *tetromino);
         int GetRow();
+        int GetCol();
 
     private:    // variables
 

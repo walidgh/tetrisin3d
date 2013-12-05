@@ -9,8 +9,11 @@
 #include "Game.h"
 
 //TODO clean up memory
+//TODO move left bugfix
+//TODO renaming some variables
+//TODO comments
 
-#define WAIT_TIME 300       // milliseconds between the movements
+#define WAIT_TIME 400       // milliseconds between the movements
 
 using namespace std;
 
@@ -28,18 +31,84 @@ int main(int argc, char *argv[])
 
     Game game(&tetromino, &board);
 
-    EventManager events;
+//    EventManager events;
 
     unsigned long timeStart = SDL_GetTicks();
 
-	while (true)
+    SDL_Event event;
+    bool run = true;
+	while (run)
 	{
-	    // Event Handling
-	    events.PollEvents();
+	    // Event handling for continuous actions
+//	    events.PollEvents();
+//
+//        if(events.isKeyDown(SDLK_ESCAPE)) break;
+//
+//        if(events.isActualEvent(WINDOW_CLOSE)) break;
 
-        if(events.isKeyDown(SDLK_ESCAPE)) break;
+        // Event handling for fractional actions
 
-        if(events.isActualEvent(WINDOW_CLOSE)) break;
+        while(SDL_PollEvent(&event))
+        {
+            switch(event.type)
+                {
+                    case SDL_KEYDOWN:
+                        switch(event.key.keysym.sym)
+                        {
+                            case SDLK_LEFT:
+                                {
+                                    tetromino.getPotentialTopLeft()->col -= 1;
+                                    if(game.CheckCollisionWithBorder())
+                                    {
+                                        tetromino.getPotentialTopLeft()->col += 1;
+                                    }
+                                    else
+                                    {
+                                        tetromino.Move();
+                                    }
+                                }
+                                break;
+
+                            case SDLK_RIGHT:
+                                {
+                                    tetromino.getPotentialTopLeft()->col += 1;
+                                    if(game.CheckCollisionWithBorder())
+                                    {
+                                        tetromino.getPotentialTopLeft()->col -= 1;
+                                    }
+                                    else
+                                    {
+                                        tetromino.Move();
+                                    }
+                                }
+                                break;
+
+                            case SDLK_r:
+                                {
+                                    tetromino.RotatePotential();
+                                    if(!game.CheckCollisionWhenRotated())
+                                    {
+                                        tetromino.Rotate();
+                                    }
+                                }
+                                break;
+
+                            case SDLK_ESCAPE:
+                                run = false;
+                                break;
+
+                            default:
+                                break;
+                        }
+                        break;
+
+                    case SDL_QUIT:
+                        run = false;
+
+                    default:
+                        break;
+                }
+        }
 
         // Rendering
         graphics.Rendering();
@@ -49,15 +118,18 @@ int main(int argc, char *argv[])
 
         if((timeEnd - timeStart) > WAIT_TIME)
         {
-            if(game.CheckCollision())
-            {
-                board.LandShape(&tetromino);
+            game.CheckCollisionWithBorder();
 
+            tetromino.getPotentialTopLeft()->row += 1;
+            if(game.CheckCollisionWithLanded())
+            {
+                tetromino.getPotentialTopLeft()->row -= 1;
+                board.LandShape(&tetromino);
                 tetromino.NewShape();
             }
             else
             {
-                tetromino.MoveDown();
+                tetromino.Move();
             }
 
             timeStart = SDL_GetTicks();
