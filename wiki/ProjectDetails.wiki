@@ -1,6 +1,9 @@
 #labels Phase-Implementation,Featured
 =Project Details=
 
+The game logic is based on Michael James Williams article:
+http://gamedevelopment.tutsplus.com/tutorials/implementing-tetris-collision-detection--gamedev-852
+
 ===IDE===
 Code Blocks 12.11
 
