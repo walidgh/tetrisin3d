@@ -17,6 +17,9 @@ class Graphics
 
         void Rendering();
 
+        void SetWindowTitle(unsigned int score, unsigned int gameSpeed);
+        void SetWindowTitle(const char *title);
+
     private:    // variables
 
         Tetromino *mTetromino;

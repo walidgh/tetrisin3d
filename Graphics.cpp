@@ -6,8 +6,6 @@
 #include "lib_3rd_party/glm/gtc/matrix_transform.hpp"
 #include "lib_3rd_party/shader.hpp"
 
-// TODO move mTetromino and mBoard from private var to rendering args
-
 Graphics::Graphics(Tetromino *tetromino, Board *board)
 {
     mTetromino = tetromino;
@@ -42,6 +40,11 @@ bool Graphics::InitGraphics(int scale, int row, int col)
 	glBindBuffer(GL_ARRAY_BUFFER, mColorBufferId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
 
+    // The shader program used only in DrawSquare(float transX, float transY)
+    // It is okay to install it here
+    // In case of using more shaders, it may cause some trouble
+    glUseProgram(mShaderProgramId);
+
     return true;
 }
 
@@ -65,9 +68,6 @@ bool Graphics::InitSDL()
 		SDL_Quit();
 		return false;
 	}
-
-    // Set window title
-    SDL_WM_SetCaption("Tetris 3D", "");
 
     std::cout << "SDL initialization OK\n";
 
@@ -133,8 +133,6 @@ void Graphics::Rendering()
 
 void Graphics::DrawSquare(float transX, float transY)
 {
-    glUseProgram(mShaderProgramId);
-
     glm::mat4 Projection2d = glm::ortho(0.0f, float(mScreenWidth), float(mScreenHeight), 0.0f);
 	glm::mat4 Model        = glm::mat4(1.0f);
 
@@ -187,4 +185,16 @@ void Graphics::SwapFrameBuffer()
 {
     // Swap OpenGL framebuffer
     SDL_GL_SwapBuffers();
+}
+
+void Graphics::SetWindowTitle(unsigned int score, unsigned int gameSpeed)
+{
+    char title[64];
+    sprintf(title, "Tetris 3D - SCORE: %d - Game speed: %d", score, gameSpeed);
+    SDL_WM_SetCaption(title, NULL);
+}
+
+void Graphics::SetWindowTitle(const char *title)
+{
+    SDL_WM_SetCaption(title, NULL);
 }

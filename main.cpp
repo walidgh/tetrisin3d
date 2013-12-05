@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include <SDL/SDL.h>
 
@@ -8,12 +9,8 @@
 #include "Board.h"
 #include "Game.h"
 
-//TODO clean up memory
-//TODO move left bugfix
-//TODO renaming some variables
 //TODO comments
-
-#define WAIT_TIME 300       // milliseconds between the movements
+//TODO game info in wiki (how to play etc)
 
 using namespace std;
 
@@ -21,15 +18,20 @@ int main(int argc, char *argv[])
 {
     atexit(SDL_Quit);
 
+    // Game settings
+    unsigned int gameSpeed = 700;    // number of milliseconds between tetrominos falling movement
+    unsigned int score = 0;          // points for full lines
+
+    // Class instances
     Tetromino    tetromino;
     Board        board(10, 16);
-
     Graphics     graphics(&tetromino, &board);
+    Game         game(&tetromino, &board);
+
+    // Initializations
     if(!graphics.InitGraphics(30, 16, 10)) return 0;
-
+    graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
     board.InitBoard();
-
-    Game game(&tetromino, &board);
 
 //    EventManager events;
 
@@ -93,6 +95,26 @@ int main(int argc, char *argv[])
                                 }
                                 break;
 
+                            case SDLK_PAGEUP:
+                                {
+                                    if(gameSpeed > 100)
+                                    {
+                                        gameSpeed -= 100;
+                                        graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
+                                    }
+                                }
+                                break;
+
+                            case SDLK_PAGEDOWN:
+                                {
+                                    if(gameSpeed < 1500)
+                                    {
+                                        gameSpeed += 100;
+                                        graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
+                                    }
+                                }
+                                break;
+
                             case SDLK_ESCAPE:
                                 run = false;
                                 break;
@@ -116,7 +138,7 @@ int main(int argc, char *argv[])
         // Timed vertical movement
         unsigned long timeEnd = SDL_GetTicks();
 
-        if((timeEnd - timeStart) > WAIT_TIME)
+        if((timeEnd - timeStart) > gameSpeed)
         {
             game.CheckCollisionWithBorder();
 
@@ -132,7 +154,8 @@ int main(int argc, char *argv[])
                 tetromino.Move();
             }
 
-            game.DeleteLines();
+            game.DeleteLines(&score);
+            graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
 
             timeStart = SDL_GetTicks();
         }
