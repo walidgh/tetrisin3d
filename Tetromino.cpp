@@ -30,7 +30,7 @@ void Tetromino::NewShape()
 {
     int rand = GetRand(0, 2);
 
-    if(rand == 0)       // Square
+    if(rand == 0)       // O
     {
         mShapeActual = 0;
         mWidth = 2;
