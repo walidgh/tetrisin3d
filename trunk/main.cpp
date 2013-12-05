@@ -13,7 +13,7 @@
 //TODO renaming some variables
 //TODO comments
 
-#define WAIT_TIME 400       // milliseconds between the movements
+#define WAIT_TIME 300       // milliseconds between the movements
 
 using namespace std;
 
@@ -131,6 +131,8 @@ int main(int argc, char *argv[])
             {
                 tetromino.Move();
             }
+
+            game.DeleteLines();
 
             timeStart = SDL_GetTicks();
         }

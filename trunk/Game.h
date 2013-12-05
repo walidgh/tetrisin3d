@@ -15,6 +15,8 @@ class Game
         bool CheckCollisionWithBorder();
         bool CheckCollisionWhenRotated();
 
+        void DeleteLines();
+
     private:    // variables
 
         Tetromino *mTetromino;
