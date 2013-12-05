@@ -1,5 +1,5 @@
 #include "EventManager.h"
-#include <iostream>
+
 EventManager::EventManager()
 {
     for(int i=0; i<400; i++)

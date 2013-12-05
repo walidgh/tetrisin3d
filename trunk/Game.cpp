@@ -19,7 +19,7 @@ bool Game::CheckCollisionWithLanded()
         {
             if(mTetromino->getShape()[row][col] != 0)
             {
-                if(row + mTetromino->getPotentialTopLeft()->row >= mBoard->GetRow())
+                if(row + mTetromino->getPotentialTopLeft()->row >= mBoard->GetHeight())
                 {
                     //this block would be below the playing field
                     return true;
@@ -49,7 +49,7 @@ bool Game::CheckCollisionWithBorder()
                     //this block would be to the left of the playing field
                     return true;
                 }
-                if(col + mTetromino->getPotentialTopLeft()->col >= mBoard->GetCol())
+                if(col + mTetromino->getPotentialTopLeft()->col >= mBoard->GetWidth())
                 {
                     //this block would be to the right of the playing field
                     return true;
@@ -79,12 +79,12 @@ bool Game::CheckCollisionWhenRotated()
                     //this block would be to the left of the playing field
                     return true;
                 }
-                if(col + mTetromino->getTopLeft()->col >= mBoard->GetCol())
+                if(col + mTetromino->getTopLeft()->col >= mBoard->GetWidth())
                 {
                     //this block would be to the right of the playing field
                     return true;
                 }
-                if(row + mTetromino->getTopLeft()->row >= mBoard->GetRow())
+                if(row + mTetromino->getTopLeft()->row >= mBoard->GetHeight())
                 {
                     //this block would be below the playing field
                     return true;
@@ -101,12 +101,12 @@ bool Game::CheckCollisionWhenRotated()
     return false;
 }
 
-void Game::DeleteLines()
+void Game::DeleteLines(unsigned int *score)
 {
-    for(int row=0; row<mBoard->GetRow(); row++)
+    for(int row=0; row<mBoard->GetHeight(); row++)
     {
         bool isFilled = true;
-        for(int col=0; col<mBoard->GetCol(); col++)
+        for(int col=0; col<mBoard->GetWidth(); col++)
         {
             // Check if row is full
             if(mBoard->GetLanded()[row][col] == 0)
@@ -118,8 +118,11 @@ void Game::DeleteLines()
         // If row is full
         if(isFilled)
         {
+            // Increment game score with 1
+            *score += 1;
+
             // Make all element 0
-            for(int col=0; col<mBoard->GetCol(); col++)
+            for(int col=0; col<mBoard->GetWidth(); col++)
             {
                 mBoard->GetLanded()[row][col] = 0;
             }
@@ -127,7 +130,7 @@ void Game::DeleteLines()
             // Move 1 row down every line above the empted row
             for(int row2=row; row2>0; row2--)
             {
-                for(int col2=0; col2<mBoard->GetCol(); col2++)
+                for(int col2=0; col2<mBoard->GetWidth(); col2++)
                 {
                     mBoard->GetLanded()[row2][col2] = mBoard->GetLanded()[row2-1][col2];
                     mBoard->GetLanded()[row2-1][col2] = 0;

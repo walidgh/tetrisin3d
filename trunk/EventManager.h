@@ -3,8 +3,6 @@
 
 #include <SDL/SDL.h>
 
-//TODO init subsystem
-
 enum Events
 {
     NO_EVENT = 0,

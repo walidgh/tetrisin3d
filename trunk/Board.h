@@ -7,19 +7,19 @@ class Board
 {
     public:     // functions
 
-        Board(int col, int row);
+        Board(int width, int height);
         ~Board();
 
         void InitBoard();
         unsigned int** GetLanded();
         void LandShape(Tetromino *tetromino);
-        int GetRow();
-        int GetCol();
+        int GetHeight();
+        int GetWidth();
 
     private:    // variables
 
-        int mRow;
-        int mCol;
+        int mWidth;
+        int mHeight;
         unsigned int **mLanded;
 };
 

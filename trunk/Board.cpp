@@ -1,26 +1,26 @@
 #include "Board.h"
 
-Board::Board(int col, int row)
+Board::Board(int width, int height)
 {
-    mCol = col;
-    mRow = row;
+    mWidth = width;
+    mHeight = height;
 }
 
 Board::~Board()
 {
-    for(int i=0; i<mRow; i++)
+    for(int i=0; i<mHeight; i++)
         delete [] mLanded[i];
     delete [] mLanded;
 }
 
 void Board::InitBoard()
 {
-    mLanded = new unsigned int*[mRow];
-    for(int i=0; i<mRow; i++) mLanded[i] = new unsigned int[mCol];
+    mLanded = new unsigned int*[mHeight];
+    for(int i=0; i<mHeight; i++) mLanded[i] = new unsigned int[mWidth];
 
-    for(int row=0; row<mRow; row++)
+    for(int row=0; row<mHeight; row++)
     {
-        for(int col=0; col<mCol; col++)
+        for(int col=0; col<mWidth; col++)
         {
             mLanded[row][col] = 0;
         }
@@ -51,12 +51,12 @@ void Board::LandShape(Tetromino *tetromino)
     }
 }
 
-int Board::GetRow()
+int Board::GetHeight()
 {
-    return mRow;
+    return mHeight;
 }
 
-int Board::GetCol()
+int Board::GetWidth()
 {
-    return mCol;
+    return mWidth;
 }

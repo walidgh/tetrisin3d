@@ -39,7 +39,7 @@ class Tetromino
 
     private:    // variables
 
-        unsigned int   **mShapeActual;
+        unsigned int   **mShape;
         unsigned int   **mPotentialShape;
         sPosition        mTopLeft;
         sPosition        mPotentialTopLeft;
