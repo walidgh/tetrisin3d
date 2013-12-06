@@ -19,9 +19,9 @@ Graphics::~Graphics()
 
 bool Graphics::InitGraphics(int scale, int row, int col)
 {
-    mScale          = scale;
     mRow            = row;
     mCol            = col;
+    mScale          = scale;
     mScreenWidth    = col * scale;
     mScreenHeight   = row * scale;
 
@@ -103,13 +103,13 @@ void Graphics::Rendering()
     // Draw moving tetromino
     float transX = mTetromino->getTopLeft()->col;
     float transY = mTetromino->getTopLeft()->row;
-    unsigned int **shape = mTetromino->getShape();
+//    unsigned int **shape = mTetromino->getShape();
 
     for(int row=0; row<mTetromino->getHeight(); row++)
     {
         for(int col=0; col<mTetromino->getWidth(); col++)
         {
-            if(shape[row][col] != 0)
+            if(mTetromino->getShape()[row][col] != 0)
             {
                 DrawSquare(col + transX, row + transY);
             }
@@ -185,6 +185,13 @@ void Graphics::SwapFrameBuffer()
 {
     // Swap OpenGL framebuffer
     SDL_GL_SwapBuffers();
+}
+
+void Graphics::SetWindowTitle(unsigned int score)
+{
+    char title[64];
+    sprintf(title, "Tetris 3D - SCORE: %d - GAME OVER", score);
+    SDL_WM_SetCaption(title, NULL);
 }
 
 void Graphics::SetWindowTitle(unsigned int score, unsigned int gameSpeed)

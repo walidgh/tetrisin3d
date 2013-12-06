@@ -14,6 +14,7 @@ class Game
         bool CheckCollisionWithLanded();
         bool CheckCollisionWithBorder();
         bool CheckCollisionWhenRotated();
+        bool CheckGameOver();
 
         void DeleteLines(unsigned int *score);
 

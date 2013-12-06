@@ -140,3 +140,24 @@ void Game::DeleteLines(unsigned int *score)
         }
     }
 }
+
+/**
+    Game over checks
+    Is there any block in the 4th row
+
+    return: true if there is
+*/
+//TODO make another game over check
+//     which checks is there any collsision between landed and new shape
+bool Game::CheckGameOver()
+{
+    for(int col=0; col<mBoard->GetWidth(); col++)
+    {
+        if(mBoard->GetLanded()[3][col] != 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

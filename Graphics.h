@@ -17,6 +17,7 @@ class Graphics
 
         void Rendering();
 
+        void SetWindowTitle(unsigned int score);
         void SetWindowTitle(unsigned int score, unsigned int gameSpeed);
         void SetWindowTitle(const char *title);
 
@@ -28,9 +29,10 @@ class Graphics
         // Display settings
         int mScreenWidth;
         int mScreenHeight;
-        int mScale;
         int mRow;
         int mCol;
+        int mScale;
+        int mMargin;
 
         // SDL stuff
         SDL_Surface *mScreen;
