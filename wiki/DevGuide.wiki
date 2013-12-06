@@ -8,8 +8,37 @@ Using the newest features of OpenGL or at least the 3.0 version, this library is
 
 *SDL* For creating window and handling keyboard. There is a great tutorial on how to install it: http://lazyfoo.net/SDL_tutorials/lesson01/index.php
 
-*IDE* Code Blocks 12.11 + MinGW compiler. It isn't necessary, using other IDE is ok.
+*IDE* Code Blocks 12.11 + MinGW compiler. It isn't necessary, using other IDE is ok. http://www.codeblocks.org/
 
 *GLM* For matrix calculations. Just put the source code in to the project folder, next to the main source code. In the Graphics.h you can see the include path to glm.hpp and to other glm headers. http://glm.g-truc.net/0.9.4/index.html
 
 *OpenGL Tutorial* There is this great site http://www.opengl-tutorial.org/ where I understood the concept of the OpenGL 3.3. I'm using some code from it and I separated it from the original code.
+
+=== Code Blocks Setup Guide - headers and libraries===
+
+ # Download the dev package (Releases link)
+ # Download and install Code Blocks. You need the mingw package!
+ # Copy the devpackage/include/GL content into <Code Blocks install dir>/MinGW/include/GL
+ # Copy the devpackage/include/SDL dir into <Code Blocks install dir>/MinGW/include/
+ # Copy the devpackage/lib/ content into <Code Blocks install dir>/MinGW/include/lib
+ # Copy the devpackage/ glew32.dll and SDL.dll into <Code Blocks install dir>/MinGW/bin
+
+Note: the SDL files are not complete, if you want to use other features (image loader) you should download the full package. http://www.libsdl.org/
+
+Note: glew32.dll and SDL.dll are needed for running the executable. If you compile and run it from Code Blocks it will be ok. If you want to run it independently, you will need put these two dll next to the exe or copy into the Windws/system32 folder.
+
+=== Code Blocks Setup Guide - creating the project ===
+
+ # Start Code Blocks:)
+ # File/New/Project... then select Console application
+ # On the next page select C++ , name you project, change the project dir if you want, than Finish
+ # Right click on project name and click Build options...
+ # On the Linker settings tab add the following keywords to the left window (one by one): mingw32, direct path to the glew32.dll, opengl32, SDLmain, SDL
+ # Copy the source code into the project folder
+ # Copy the devpackage/lib_3rd_party dir into the project folder, next to the source files
+ # Right click on project name and Add files..., select all the source files
+ # You may need to add the shader.hpp and shader.cpp too
+ # Now you can Build your project
+ # Don't forget to save the project (File/Save project), because if you don't, next time you open it, all the options and source file won't be there.
+
+I hope it will help build the project. In case of any problems or ideas, feel free to contact me!
