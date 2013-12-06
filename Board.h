@@ -11,7 +11,7 @@ class Board
         ~Board();
 
         void InitBoard();
-        unsigned int** GetLanded();
+        int** GetLanded();
         void LandShape(Tetromino *tetromino);
         int GetHeight();
         int GetWidth();
@@ -20,7 +20,7 @@ class Board
 
         int mWidth;
         int mHeight;
-        unsigned int **mLanded;
+        int **mLanded;
 };
 
 #endif // BOARD_H

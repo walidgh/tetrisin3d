@@ -15,8 +15,8 @@ Board::~Board()
 
 void Board::InitBoard()
 {
-    mLanded = new unsigned int*[mHeight];
-    for(int i=0; i<mHeight; i++) mLanded[i] = new unsigned int[mWidth];
+    mLanded = new int*[mHeight];
+    for(int i=0; i<mHeight; i++) mLanded[i] = new int[mWidth];
 
     for(int row=0; row<mHeight; row++)
     {
@@ -32,7 +32,7 @@ void Board::InitBoard()
 //    }
 }
 
-unsigned int** Board::GetLanded()
+int** Board::GetLanded()
 {
     return mLanded;
 }

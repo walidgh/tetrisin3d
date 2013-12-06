@@ -101,7 +101,7 @@ bool Game::CheckCollisionWhenRotated()
     return false;
 }
 
-void Game::DeleteLines(unsigned int *score)
+void Game::DeleteLines(int *score)
 {
     for(int row=0; row<mBoard->GetHeight(); row++)
     {
@@ -153,7 +153,7 @@ bool Game::CheckGameOver()
 {
     for(int col=0; col<mBoard->GetWidth(); col++)
     {
-        if(mBoard->GetLanded()[3][col] != 0)
+        if(mBoard->GetLanded()[2][col] != 0)
         {
             return true;
         }
