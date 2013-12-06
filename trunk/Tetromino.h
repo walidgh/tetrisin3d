@@ -16,8 +16,8 @@ class Tetromino
 
         void NewShape();
 
-        unsigned int** getShape();
-        unsigned int** getPotentialShape();
+        int** getShape();
+        int** getPotentialShape();
 
         sPosition* getTopLeft();
         sPosition* getPotentialTopLeft();
@@ -39,8 +39,8 @@ class Tetromino
 
     private:    // variables
 
-        unsigned int   **mShape;
-        unsigned int   **mPotentialShape;
+        int            **mShape;
+        int            **mPotentialShape;
         sPosition        mTopLeft;
         sPosition        mPotentialTopLeft;
 
@@ -48,6 +48,8 @@ class Tetromino
         int mHeight;
         int mPotentialWidth;
         int mPotentialHeight;
+
+        int mColor;
 };
 
 #endif // TETROMINO_H

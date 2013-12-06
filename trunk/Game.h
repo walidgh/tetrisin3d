@@ -16,7 +16,7 @@ class Game
         bool CheckCollisionWhenRotated();
         bool CheckGameOver();
 
-        void DeleteLines(unsigned int *score);
+        void DeleteLines(int *score);
 
     private:    // variables
 

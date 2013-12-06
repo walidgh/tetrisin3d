@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     // Game settings
     unsigned int gameSpeed  = 700;      // number of milliseconds between tetrominos falling movement
-    unsigned int score      = 0;        // points for full lines
+    int          score      = 0;        // points for full lines
 
     // Class instances
     Tetromino    tetromino;

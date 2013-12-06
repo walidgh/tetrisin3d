@@ -9,8 +9,8 @@ Tetromino::Tetromino()
     srand ((unsigned int) time(NULL));
 
     // Allocate memory
-    mShape = new unsigned int*[4];
-        for(int i=0; i<4; i++) mShape[i] = new unsigned int[4];
+    mShape = new int*[4];
+        for(int i=0; i<4; i++) mShape[i] = new int[4];
 
     // Create new shape
     NewShape();
@@ -31,16 +31,18 @@ void Tetromino::NewShape()
     int rand = GetRand(0, 6);
     std::cout << rand << std::endl;
 
+    mColor = GetRand(1, 7);
+
     if(rand == 0)       // O
     {
         mShape = 0;
         mWidth = 2;
         mHeight = 2;
 
-        unsigned int temp[2][2] = {{1, 1}, {1, 1}};
+        int temp[2][2] = {{mColor, mColor}, {mColor, mColor}};
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
         for(int row=0; row<mHeight; row++)
         {
@@ -56,10 +58,10 @@ void Tetromino::NewShape()
         mWidth = 1;
         mHeight = 4;
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
-        unsigned int temp[4][1] = {{1}, {1}, {1}, {1}};
+        int temp[4][1] = {{mColor}, {mColor}, {mColor}, {mColor}};
 
         for(int row=0; row<mHeight; row++)
         {
@@ -75,10 +77,10 @@ void Tetromino::NewShape()
         mWidth = 2;
         mHeight = 3;
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
-        unsigned int temp[3][2] = {{1, 0}, {1, 0}, {1, 1}};
+        int temp[3][2] = {{mColor, 0}, {mColor, 0}, {mColor, mColor}};
 
         for(int row=0; row<mHeight; row++)
         {
@@ -94,10 +96,10 @@ void Tetromino::NewShape()
         mWidth = 2;
         mHeight = 3;
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
-        unsigned int temp[3][2] = {{0, 1}, {0, 1}, {1, 1}};
+        int temp[3][2] = {{0, mColor}, {0, mColor}, {mColor, mColor}};
 
         for(int row=0; row<mHeight; row++)
         {
@@ -113,10 +115,10 @@ void Tetromino::NewShape()
         mWidth = 3;
         mHeight = 2;
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
-        unsigned int temp[2][3] = {{0, 1, 1}, {1, 1, 0}};
+        int temp[2][3] = {{0, mColor, mColor}, {mColor, mColor, 0}};
 
         for(int row=0; row<mHeight; row++)
         {
@@ -132,10 +134,10 @@ void Tetromino::NewShape()
         mWidth = 3;
         mHeight = 2;
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
-        unsigned int temp[2][3] = {{0, 1, 0}, {1, 1, 1}};
+        int temp[2][3] = {{0, mColor, 0}, {mColor, mColor, mColor}};
 
         for(int row=0; row<mHeight; row++)
         {
@@ -151,10 +153,10 @@ void Tetromino::NewShape()
         mWidth = 3;
         mHeight = 2;
 
-        mShape = new unsigned int*[mHeight];
-        for(int i=0; i<mHeight; i++) mShape[i] = new unsigned int[mWidth];
+        mShape = new int*[mHeight];
+        for(int i=0; i<mHeight; i++) mShape[i] = new int[mWidth];
 
-        unsigned int temp[2][3] = {{1, 1, 0}, {0, 1, 1}};
+        int temp[2][3] = {{mColor, mColor, 0}, {0, mColor, mColor}};
 
         for(int row=0; row<mHeight; row++)
         {
@@ -173,12 +175,12 @@ void Tetromino::NewShape()
 
 }
 
-unsigned int** Tetromino::getShape()
+int** Tetromino::getShape()
 {
     return mShape;
 }
 
-unsigned int** Tetromino::getPotentialShape()
+int** Tetromino::getPotentialShape()
 {
     return mPotentialShape;
 }
@@ -224,8 +226,8 @@ void Tetromino::RotatePotential()
     mPotentialHeight = mWidth;
 
     mPotentialShape = 0;
-    mPotentialShape = new unsigned int*[mPotentialHeight];
-    for(int i=0; i<mPotentialHeight; i++) mPotentialShape[i] = new unsigned int[mPotentialWidth];
+    mPotentialShape = new int*[mPotentialHeight];
+    for(int i=0; i<mPotentialHeight; i++) mPotentialShape[i] = new int[mPotentialWidth];
 
     int r = 0;
     for(int row=mHeight-1; row>=0; row--)
