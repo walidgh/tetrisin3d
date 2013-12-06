@@ -1,0 +1,15 @@
+#labels Featured,Phase-Implementation
+= Development Guide =
+
+For proper compiling here are some important thing. I made a dev package with the required headers and libraries in case you do not want to put all the things together by yourself. It is available under the Releases link.
+
+*GLEW*
+Using the newest features of OpenGL or at least the 3.0 version, this library is needed. I had some trouble with the original release, because of MinGW compiler. I recompiled the GLEW source, so I can use the glew32.dll with MinGW. Or you can use MSVC, so the original GLEW binary release will be perfect.
+
+*SDL* For creating window and handling keyboard. There is a great tutorial on how to install it: http://lazyfoo.net/SDL_tutorials/lesson01/index.php
+
+*IDE* Code Blocks 12.11 + MinGW compiler. It isn't necessary, using other IDE is ok.
+
+*GLM* For matrix calculations. Just put the source code in to the project folder, next to the main source code. In the Graphics.h you can see the include path to glm.hpp and to other glm headers. http://glm.g-truc.net/0.9.4/index.html
+
+*OpenGL Tutorial* There is this great site http://www.opengl-tutorial.org/ where I understood the concept of the OpenGL 3.3. I'm using some code from it and I separated it from the original code.
