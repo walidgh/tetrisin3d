@@ -10,7 +10,6 @@
 #include "Game.h"
 
 //TODO comments
-//TODO game info in wiki (how to play etc)
 
 using namespace std;
 
@@ -19,8 +18,8 @@ int main(int argc, char *argv[])
     atexit(SDL_Quit);
 
     // Game settings
-    unsigned int gameSpeed = 700;    // number of milliseconds between tetrominos falling movement
-    unsigned int score = 0;          // points for full lines
+    unsigned int gameSpeed  = 700;      // number of milliseconds between tetrominos falling movement
+    unsigned int score      = 0;        // points for full lines
 
     // Class instances
     Tetromino    tetromino;
@@ -49,7 +48,6 @@ int main(int argc, char *argv[])
 //        if(events.isActualEvent(WINDOW_CLOSE)) break;
 
         // Event handling for fractional actions
-
         while(SDL_PollEvent(&event))
         {
             switch(event.type)
@@ -77,6 +75,31 @@ int main(int argc, char *argv[])
                                     if(game.CheckCollisionWithBorder())
                                     {
                                         tetromino.getPotentialTopLeft()->col -= 1;
+                                    }
+                                    else
+                                    {
+                                        tetromino.Move();
+                                    }
+                                }
+                                break;
+
+                            case SDLK_DOWN:
+                                {
+                                    tetromino.getPotentialTopLeft()->row += 1;
+                                    if(game.CheckCollisionWithLanded())
+                                    {
+                                        tetromino.getPotentialTopLeft()->row -= 1;
+                                        board.LandShape(&tetromino);
+
+                                        // Check game over
+                                        if(game.CheckGameOver())
+                                        {
+                                            run = false;
+                                        }
+                                        else
+                                        {
+                                            tetromino.NewShape();
+                                        }
                                     }
                                     else
                                     {
@@ -138,16 +161,25 @@ int main(int argc, char *argv[])
         // Timed vertical movement
         unsigned long timeEnd = SDL_GetTicks();
 
-        if((timeEnd - timeStart) > gameSpeed)
+        if(((timeEnd - timeStart) > gameSpeed))
         {
-            game.CheckCollisionWithBorder();
+//            game.CheckCollisionWithBorder();
 
             tetromino.getPotentialTopLeft()->row += 1;
             if(game.CheckCollisionWithLanded())
             {
                 tetromino.getPotentialTopLeft()->row -= 1;
                 board.LandShape(&tetromino);
-                tetromino.NewShape();
+
+                // Check game over
+                if(game.CheckGameOver())
+                {
+                    run = false;
+                }
+                else
+                {
+                    tetromino.NewShape();
+                }
             }
             else
             {
@@ -155,12 +187,46 @@ int main(int argc, char *argv[])
             }
 
             game.DeleteLines(&score);
+
             graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
 
             timeStart = SDL_GetTicks();
         }
 
 	}
+
+	// Game loop for game over state
+	graphics.SetWindowTitle(score);
+	run = true;
+	while(run)
+    {
+        while(SDL_PollEvent(&event))
+        {
+            switch(event.type)
+                {
+                    case SDL_KEYDOWN:
+                        switch(event.key.keysym.sym)
+                        {
+                            case SDLK_ESCAPE:
+                                run = false;
+                                break;
+
+                            default:
+                                break;
+                        }
+                        break;
+
+                    case SDL_QUIT:
+                        run = false;
+
+                    default:
+                        break;
+                }
+        }
+
+        // Rendering
+        graphics.Rendering();
+    }
 
 	return 0;
 }
