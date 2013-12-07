@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include <iostream>
+
 Tetromino::Tetromino()
 {
     // Init random numbers
@@ -29,7 +29,6 @@ Tetromino::~Tetromino()
 void Tetromino::NewShape()
 {
     int rand = GetRand(0, 6);
-    std::cout << rand << std::endl;
 
     mColor = GetRand(1, 7);
 
@@ -175,47 +174,42 @@ void Tetromino::NewShape()
 
 }
 
-int** Tetromino::getShape()
+int** Tetromino::GetShape()
 {
     return mShape;
 }
 
-int** Tetromino::getPotentialShape()
+int** Tetromino::GetPotentialShape()
 {
     return mPotentialShape;
 }
 
-sPosition* Tetromino::getTopLeft()
+sPosition* Tetromino::GetTopLeft()
 {
     return &mTopLeft;
 }
 
-sPosition* Tetromino::getPotentialTopLeft()
+sPosition* Tetromino::GetPotentialTopLeft()
 {
     return &mPotentialTopLeft;
 }
 
-int Tetromino::GetRand(int a, int b)
-{
-	return rand () % (b - a + 1) + a;
-}
-
-int Tetromino::getWidth()
+int Tetromino::GetWidth()
 {
     return mWidth;
 }
 
-int Tetromino::getHeight()
+int Tetromino::GetHeight()
 {
     return mHeight;
 }
 
-int Tetromino::getPotentialWidth()
+int Tetromino::GetPotentialWidth()
 {
     return mPotentialWidth;
 }
 
-int Tetromino::getPotentialHeight()
+int Tetromino::GetPotentialHeight()
 {
     return mPotentialHeight;
 }
@@ -251,4 +245,9 @@ void Tetromino::Rotate()
 void Tetromino::Move()
 {
     mTopLeft = mPotentialTopLeft;
+}
+
+int Tetromino::GetRand(int a, int b)
+{
+	return rand () % (b - a + 1) + a;
 }

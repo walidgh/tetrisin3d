@@ -6,22 +6,22 @@
 
 class Game
 {
-    public:     // functions
+    public:     // Functions
 
-        Game(Tetromino *tetromino, Board *board);
-        ~Game();
+        Game(Tetromino *tetromino, Board *board);   // Constructor
+        ~Game();                                    // Destructor
 
-        bool CheckCollisionWithLanded();
-        bool CheckCollisionWithBorder();
-        bool CheckCollisionWhenRotated();
-        bool CheckGameOver();
+        bool CheckCollisionWithLanded();    // Checks collision with landed tetrominos
+        bool CheckCollisionWithBorder();    // Checks collision with the borders
+        bool CheckCollisionWhenRotated();   // Checks collision before tetromino is rotated
+        bool CheckGameOver();               // Checks tetromino reached the top
 
-        void DeleteLines(int *score);
+        void DeleteLines(int *score);       // Remove full line on gameboard
 
-    private:    // variables
+    private:    // Variables
 
-        Tetromino *mTetromino;
-        Board     *mBoard;
+        Tetromino *mTetromino;      // Pointer to Tetromino object
+        Board     *mBoard;          // Pointer to Board object
 };
 
 #endif // GAME_H

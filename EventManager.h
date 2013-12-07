@@ -3,7 +3,7 @@
 
 #include <SDL/SDL.h>
 
-enum Events
+enum Events         // Basic events definition
 {
     NO_EVENT = 0,
     ANY_KEY_DOWN,
@@ -16,27 +16,26 @@ enum Events
 
 class EventManager
 {
-    public:     // functions
+    public:     // Functions
 
-        EventManager();
-        ~EventManager();
+        EventManager();         // Constructor
+        ~EventManager();        // Destructor
 
-        void PollEvents();
-        SDL_Event* PollEvents2();
+        void PollEvents();      // Poll SDL events
 
-        bool isActualEvent(Events event);
+        bool isActualEvent(Events event);   // Checks the actual event
 
-        bool isKeyDown(SDLKey key);
-        bool isKeyUp(SDLKey key);
+        bool isKeyDown(SDLKey key);         // Checks is key pressed
+        bool isKeyUp(SDLKey key);           // Checks is key released
 
-    private:    // variables
+    private:    // Variables
 
-        SDL_Event mSDLevent;
+        SDL_Event mSDLevent;    // SDL event
 
-        Events mActualEvent;
+        Events mActualEvent;    // Actual event sign
 
-        bool mKeysDown[400];
-        bool mKeysUp[400];
+        bool mKeysDown[400];    // Pressed keys
+        bool mKeysUp[400];      // Released keys
 };
 
 #endif // EVENTMANAGER_H
