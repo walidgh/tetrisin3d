@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     atexit(SDL_Quit);
 
     // Game settings
-    unsigned int gameSpeed  = 700;      // number of milliseconds between tetrominos falling movement
-    int          score      = 0;        // points for full lines
+    int gameSpeed  = 700;      // number of milliseconds between tetrominos falling movement
+    int score      = 0;        // points for full lines
 
     // Class instances
     Tetromino    tetromino;
@@ -57,10 +57,10 @@ int main(int argc, char *argv[])
                         {
                             case SDLK_LEFT:
                                 {
-                                    tetromino.getPotentialTopLeft()->col -= 1;
+                                    tetromino.GetPotentialTopLeft()->col -= 1;
                                     if(game.CheckCollisionWithBorder())
                                     {
-                                        tetromino.getPotentialTopLeft()->col += 1;
+                                        tetromino.GetPotentialTopLeft()->col += 1;
                                     }
                                     else
                                     {
@@ -71,10 +71,10 @@ int main(int argc, char *argv[])
 
                             case SDLK_RIGHT:
                                 {
-                                    tetromino.getPotentialTopLeft()->col += 1;
+                                    tetromino.GetPotentialTopLeft()->col += 1;
                                     if(game.CheckCollisionWithBorder())
                                     {
-                                        tetromino.getPotentialTopLeft()->col -= 1;
+                                        tetromino.GetPotentialTopLeft()->col -= 1;
                                     }
                                     else
                                     {
@@ -85,10 +85,10 @@ int main(int argc, char *argv[])
 
                             case SDLK_DOWN:
                                 {
-                                    tetromino.getPotentialTopLeft()->row += 1;
+                                    tetromino.GetPotentialTopLeft()->row += 1;
                                     if(game.CheckCollisionWithLanded())
                                     {
-                                        tetromino.getPotentialTopLeft()->row -= 1;
+                                        tetromino.GetPotentialTopLeft()->row -= 1;
                                         board.LandShape(&tetromino);
 
                                         // Check game over
@@ -161,14 +161,14 @@ int main(int argc, char *argv[])
         // Timed vertical movement
         unsigned long timeEnd = SDL_GetTicks();
 
-        if(((timeEnd - timeStart) > gameSpeed))
+        if(((timeEnd - timeStart) > unsigned(gameSpeed)))
         {
 //            game.CheckCollisionWithBorder();
 
-            tetromino.getPotentialTopLeft()->row += 1;
+            tetromino.GetPotentialTopLeft()->row += 1;
             if(game.CheckCollisionWithLanded())
             {
-                tetromino.getPotentialTopLeft()->row -= 1;
+                tetromino.GetPotentialTopLeft()->row -= 1;
                 board.LandShape(&tetromino);
 
                 // Check game over

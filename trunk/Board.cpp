@@ -13,6 +13,7 @@ Board::~Board()
     delete [] mLanded;
 }
 
+
 void Board::InitBoard()
 {
     mLanded = new int*[mHeight];
@@ -25,30 +26,11 @@ void Board::InitBoard()
             mLanded[row][col] = 0;
         }
     }
-
-//    for(int col=0; col<mCol; col++)
-//    {
-//        mLanded[9][col] = 1;
-//    }
 }
 
 int** Board::GetLanded()
 {
     return mLanded;
-}
-
-void Board::LandShape(Tetromino *tetromino)
-{
-    for (int row=0; row<tetromino->getHeight(); row++)
-    {
-        for (int col=0; col<tetromino->getWidth(); col++)
-        {
-            if (tetromino->getShape()[row][col] != 0)
-            {
-                mLanded[row + tetromino->getTopLeft()->row][col + tetromino->getTopLeft()->col] = tetromino->getShape()[row][col];
-            }
-        }
-    }
 }
 
 int Board::GetHeight()
@@ -59,4 +41,18 @@ int Board::GetHeight()
 int Board::GetWidth()
 {
     return mWidth;
+}
+
+void Board::LandShape(Tetromino *tetromino)
+{
+    for (int row=0; row<tetromino->GetHeight(); row++)
+    {
+        for (int col=0; col<tetromino->GetWidth(); col++)
+        {
+            if (tetromino->GetShape()[row][col] != 0)
+            {
+                mLanded[row + tetromino->GetTopLeft()->row][col + tetromino->GetTopLeft()->col] = tetromino->GetShape()[row][col];
+            }
+        }
+    }
 }

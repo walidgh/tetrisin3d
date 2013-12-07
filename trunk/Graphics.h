@@ -9,62 +9,53 @@
 
 class Graphics
 {
-    public:     // functions
-        Graphics(Tetromino *tetromino, Board *board);
-        ~Graphics();
+    public:     // Functions
 
-        bool InitGraphics(int scale, int row, int col);
+        Graphics(Tetromino *tetromino, Board *board);   // Constructor
+        ~Graphics();                                    // Destructor
 
-        void Rendering();
+        bool InitGraphics(int scale, int row, int col); // Initializes core graphic and display settings
 
-        void SetWindowTitle(unsigned int score);
-        void SetWindowTitle(unsigned int score, unsigned int gameSpeed);
-        void SetWindowTitle(const char *title);
+        void Rendering();                               // Renders the scene
 
-    private:    // variables
+        void SetWindowTitle(int score);                 // Sets window title for game over
+        void SetWindowTitle(int score, int gameSpeed);  // Sets window title with score and game speed
+        void SetWindowTitle(const char *title);         // Sets window title with given string
 
-        Tetromino *mTetromino;
-        Board     *mBoard;
+    private:    // Variables
+
+        Tetromino *mTetromino;      // Pointer to Tetromino object
+        Board     *mBoard;          // Pointer to Board object
 
         // Display settings
-        int mScreenWidth;
-        int mScreenHeight;
-        int mRow;
-        int mCol;
-        int mScale;
-        int mMargin;
+        int mScreenWidth;       // Screen width
+        int mScreenHeight;      // Screen height
+        int mRow;               // Number of rows
+        int mCol;               // Number of columns
+        int mScale;             // Tetromino base block size
 
         // SDL stuff
-        SDL_Surface *mScreen;
+        SDL_Surface *mScreen;   // SDL screen
 
         // OpenGL stuff
-        GLuint mShaderProgramId;
+        GLuint mShaderProgramId;        // OpenGL shader program id
 
-        GLuint  mVertexBufferId;
-        GLuint  mColorBufferId;
-        GLuint  mMVPuniformLocation;
+        GLuint  mVertexBufferId;        // Vertex buffer id
+        GLuint  mColorBufferId;         // Color buffer id
+        GLuint  mMVPuniformLocation;    // MVP matrix uniform location id
 
-    private:    // functions
+    private:    // Functions
 
-        bool InitSDL();
-        bool InitOpenGL();
+        bool InitSDL();         // Initializes SDL
+        bool InitOpenGL();      // Initializes OpenGL and GLEW
 
-        void DrawSquare(float transX, float transY, int color);
+        void DrawSquare2D(float transX, float transY, int color);     // Draw 2d scquare on the given coordinates
 
-        void UpdateScreen();
-        void SwapFrameBuffer();
+        void UpdateScreen();        // Clears the color and depth buffers
+        void SwapFrameBuffer();     // Swap the frame buffer
 };
 
-//    static const GLfloat Vertices[] =
-//    {
-//          0.0f, 0.0f, 0.0f,
-//          0.0f, 1.0f, 0.0f,
-//          1.0f, 1.0f, 0.0f,
-//          0.0f, 0.0f, 0.0f,
-//          1.0f, 1.0f, 0.0f,
-//          1.0f, 0.0f, 0.0f
-//    };
-
+    // Tetromino base block vertices
     static const GLfloat Vertices[] =
     {
           0.05f, 0.05f, 0.0f,
@@ -75,6 +66,7 @@ class Graphics
           0.95f, 0.05f, 0.0f
     };
 
+    // Colors for tetrominos
     static const GLfloat Colors[8][18] =
     {
         {
