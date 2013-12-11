@@ -9,47 +9,45 @@ struct sPosition
 
 class Tetromino
 {
-    public:     // Functions
+    public:     // functions
 
-        Tetromino();    // Constructor
-        ~Tetromino();   // Destructor
+        Tetromino();
+        ~Tetromino();
 
-        void NewShape();                    // Creates random new shape
+        void NewShape();
 
-        int** GetShape();                   // Gets shape matrix
-        int** GetPotentialShape();          // Gets rotated shape
+        unsigned int** getShape();
+        unsigned int** getPotentialShape();
 
-        sPosition* GetTopLeft();            // Gets shape position
-        sPosition* GetPotentialTopLeft();   // Gets shape next position
+        sPosition* getTopLeft();
+        sPosition* getPotentialTopLeft();
 
-        int GetWidth();             // Gets shape width
-        int GetHeight();            // Gets shape height
-        int GetPotentialWidth();    // Gets rotated shape width
-        int GetPotentialHeight();   // Gets rotated shape height
+        int getWidth();
+        int getHeight();
+        int getPotentialWidth();
+        int getPotentialHeight();
 
-        void RotatePotential();     // Creates rotated shape
+        void RotatePotential();
 
-        void Rotate();  // Rotate the actual shape
-        void Move();    // Move the actual shape
+        void Rotate();
+        void Move();
 
 
-    private:    // Functions
+    private:    // functions
 
-        int GetRand(int a, int b);      // Gets random number between two number
+        int GetRand(int a, int b);
 
-    private:    // Variables
+    private:    // variables
 
-        int            **mShape;                // Shape matrix
-        int            **mPotentialShape;       // Rotated shape matrix
-        sPosition        mTopLeft;              // Shape position
-        sPosition        mPotentialTopLeft;     // Shape next position
+        unsigned int   **mShape;
+        unsigned int   **mPotentialShape;
+        sPosition        mTopLeft;
+        sPosition        mPotentialTopLeft;
 
-        int mWidth;                 // Shape width
-        int mHeight;                // Shape height
-        int mPotentialWidth;        // Rotated shape width
-        int mPotentialHeight;       // Rotated shape height
-
-        int mColor;     // Tetromino color serial number
+        int mWidth;
+        int mHeight;
+        int mPotentialWidth;
+        int mPotentialHeight;
 };
 
 #endif // TETROMINO_H

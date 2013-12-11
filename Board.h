@@ -5,23 +5,22 @@
 
 class Board
 {
-    public:     // Functions
+    public:     // functions
 
-        Board(int width, int height);       // Constructor
-        ~Board();                           // Destructor
+        Board(int width, int height);
+        ~Board();
 
-        void  InitBoard();      // Initializes the gameboard
-        int** GetLanded();      // Get the gameboard matrix
-        int   GetHeight();      // Get gameboard height
-        int   GetWidth();       // Get gameboard width
+        void InitBoard();
+        unsigned int** GetLanded();
+        void LandShape(Tetromino *tetromino);
+        int GetHeight();
+        int GetWidth();
 
-        void  LandShape(Tetromino *tetromino);      // Place tetromino on the gameboard
+    private:    // variables
 
-    private:    // Variables
-
-        int   mWidth;       // Gameboard width
-        int   mHeight;      // Gameboard height
-        int **mLanded;      // Gameboard matrix
+        int mWidth;
+        int mHeight;
+        unsigned int **mLanded;
 };
 
 #endif // BOARD_H

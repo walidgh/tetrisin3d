@@ -13,18 +13,18 @@ Game::~Game()
 
 bool Game::CheckCollisionWithLanded()
 {
-    for (int row=0; row<mTetromino->GetHeight(); row++)
+    for (int row=0; row<mTetromino->getHeight(); row++)
     {
-        for (int col = 0; col<mTetromino->GetWidth(); col++)
+        for (int col = 0; col<mTetromino->getWidth(); col++)
         {
-            if(mTetromino->GetShape()[row][col] != 0)
+            if(mTetromino->getShape()[row][col] != 0)
             {
-                if(row + mTetromino->GetPotentialTopLeft()->row >= mBoard->GetHeight())
+                if(row + mTetromino->getPotentialTopLeft()->row >= mBoard->GetHeight())
                 {
                     //this block would be below the playing field
                     return true;
                 }
-                if (mBoard->GetLanded()[row + mTetromino->GetPotentialTopLeft()->row][col + mTetromino->GetTopLeft()->col] != 0)
+                if (mBoard->GetLanded()[row + mTetromino->getPotentialTopLeft()->row][col + mTetromino->getTopLeft()->col] != 0)
                 {
                     //the space is taken
                     return true;
@@ -38,23 +38,23 @@ bool Game::CheckCollisionWithLanded()
 
 bool Game::CheckCollisionWithBorder()
 {
-    for (int row=0; row<mTetromino->GetHeight(); row++)
+    for (int row=0; row<mTetromino->getHeight(); row++)
     {
-        for (int col = 0; col<mTetromino->GetWidth(); col++)
+        for (int col = 0; col<mTetromino->getWidth(); col++)
         {
-            if(mTetromino->GetShape()[row][col] != 0)
+            if(mTetromino->getShape()[row][col] != 0)
             {
-                if(col + mTetromino->GetPotentialTopLeft()->col < 0)
+                if(col + mTetromino->getPotentialTopLeft()->col < 0)
                 {
                     //this block would be to the left of the playing field
                     return true;
                 }
-                if(col + mTetromino->GetPotentialTopLeft()->col >= mBoard->GetWidth())
+                if(col + mTetromino->getPotentialTopLeft()->col >= mBoard->GetWidth())
                 {
                     //this block would be to the right of the playing field
                     return true;
                 }
-                if (mBoard->GetLanded()[row + mTetromino->GetPotentialTopLeft()->row][col + mTetromino->GetPotentialTopLeft()->col] != 0)
+                if (mBoard->GetLanded()[row + mTetromino->getPotentialTopLeft()->row][col + mTetromino->getPotentialTopLeft()->col] != 0)
                 {
                     //the space is taken
                     return true;
@@ -68,28 +68,28 @@ bool Game::CheckCollisionWithBorder()
 
 bool Game::CheckCollisionWhenRotated()
 {
-    for(int row=0; row<mTetromino->GetPotentialHeight(); row++)
+    for(int row=0; row<mTetromino->getPotentialHeight(); row++)
     {
-        for(int col=0; col<mTetromino->GetPotentialWidth(); col++)
+        for(int col=0; col<mTetromino->getPotentialWidth(); col++)
         {
-            if(mTetromino->GetPotentialShape()[row][col] != 0)
+            if(mTetromino->getPotentialShape()[row][col] != 0)
             {
-                if(col + mTetromino->GetTopLeft()->col < 0)
+                if(col + mTetromino->getTopLeft()->col < 0)
                 {
                     //this block would be to the left of the playing field
                     return true;
                 }
-                if(col + mTetromino->GetTopLeft()->col >= mBoard->GetWidth())
+                if(col + mTetromino->getTopLeft()->col >= mBoard->GetWidth())
                 {
                     //this block would be to the right of the playing field
                     return true;
                 }
-                if(row + mTetromino->GetTopLeft()->row >= mBoard->GetHeight())
+                if(row + mTetromino->getTopLeft()->row >= mBoard->GetHeight())
                 {
                     //this block would be below the playing field
                     return true;
                 }
-                if(mBoard->GetLanded()[row + mTetromino->GetTopLeft()->row][col + mTetromino->GetTopLeft()->col] != 0)
+                if(mBoard->GetLanded()[row + mTetromino->getTopLeft()->row][col + mTetromino->getTopLeft()->col] != 0)
                 {
                     //the space is taken
                     return true;
@@ -101,22 +101,7 @@ bool Game::CheckCollisionWhenRotated()
     return false;
 }
 
-//TODO make another game over check
-//     which checks is there any collsision between landed and new shape
-bool Game::CheckGameOver()
-{
-    for(int col=0; col<mBoard->GetWidth(); col++)
-    {
-        if(mBoard->GetLanded()[2][col] != 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void Game::DeleteLines(int *score)
+void Game::DeleteLines(unsigned int *score)
 {
     for(int row=0; row<mBoard->GetHeight(); row++)
     {

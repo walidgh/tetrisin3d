@@ -9,137 +9,68 @@
 
 class Graphics
 {
-    public:     // Functions
+    public:     // functions
+        Graphics(Tetromino *tetromino, Board *board);
+        ~Graphics();
 
-        Graphics(Tetromino *tetromino, Board *board);   // Constructor
-        ~Graphics();                                    // Destructor
+        bool InitGraphics(int scale, int row, int col);
 
-        bool InitGraphics(int scale, int row, int col); // Initializes core graphic and display settings
+        void Rendering();
 
-        void Rendering();                               // Renders the scene
+        void SetWindowTitle(unsigned int score, unsigned int gameSpeed);
+        void SetWindowTitle(const char *title);
 
-        void SetWindowTitle(int score);                 // Sets window title for game over
-        void SetWindowTitle(int score, int gameSpeed);  // Sets window title with score and game speed
-        void SetWindowTitle(const char *title);         // Sets window title with given string
+    private:    // variables
 
-    private:    // Variables
-
-        Tetromino *mTetromino;      // Pointer to Tetromino object
-        Board     *mBoard;          // Pointer to Board object
+        Tetromino *mTetromino;
+        Board     *mBoard;
 
         // Display settings
-        int mScreenWidth;       // Screen width
-        int mScreenHeight;      // Screen height
-        int mRow;               // Number of rows
-        int mCol;               // Number of columns
-        int mScale;             // Tetromino base block size
+        int mScreenWidth;
+        int mScreenHeight;
+        int mScale;
+        int mRow;
+        int mCol;
 
         // SDL stuff
-        SDL_Surface *mScreen;   // SDL screen
+        SDL_Surface *mScreen;
 
         // OpenGL stuff
-        GLuint mShaderProgramId;        // OpenGL shader program id
+        GLuint mShaderProgramId;
 
-        GLuint  mVertexBufferId;        // Vertex buffer id
-        GLuint  mColorBufferId;         // Color buffer id
-        GLuint  mMVPuniformLocation;    // MVP matrix uniform location id
+        GLuint  mVertexBufferId;
+        GLuint  mColorBufferId;
+        GLuint  mMVPuniformLocation;
 
-    private:    // Functions
+    private:    // functions
 
-        bool InitSDL();         // Initializes SDL
-        bool InitOpenGL();      // Initializes OpenGL and GLEW
+        bool InitSDL();
+        bool InitOpenGL();
 
-        void DrawSquare2D(float transX, float transY, int color);     // Draw 2d scquare on the given coordinates
+        void DrawSquare(float transX, float transY);
 
-        void UpdateScreen();        // Clears the color and depth buffers
-        void SwapFrameBuffer();     // Swap the frame buffer
+        void UpdateScreen();
+        void SwapFrameBuffer();
 };
 
-    // Tetromino base block vertices
     static const GLfloat Vertices[] =
     {
-          0.05f, 0.05f, 0.0f,
-          0.05f, 0.95f, 0.0f,
-          0.95f, 0.95f, 0.0f,
-          0.05f, 0.05f, 0.0f,
-          0.95f, 0.95f, 0.0f,
-          0.95f, 0.05f, 0.0f
+          0.0f, 0.0f, 0.0f,
+          0.0f, 1.0f, 0.0f,
+          1.0f, 1.0f, 0.0f,
+          0.0f, 0.0f, 0.0f,
+          1.0f, 1.0f, 0.0f,
+          1.0f, 0.0f, 0.0f
     };
 
-    // Colors for tetrominos
-    static const GLfloat Colors[8][18] =
+    static const GLfloat Colors[] =
     {
-        {
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f
-        },
-
-        {
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f
-        },
-
-        {
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f
-        },
-
-        {
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f
-        },
-
-        {
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024
-        },
-
-        {
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671
-        },
-
-        {
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133
-        },
-
-        {
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035
-        }
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f
     };
 
 #endif // GRAPHICS_H

@@ -14,19 +14,14 @@ Graphics::Graphics(Tetromino *tetromino, Board *board)
 
 Graphics::~Graphics()
 {
-	// Delete buffers
-	glDeleteBuffers(1, &mVertexBufferId);
-	glDeleteBuffers(1, &mColorBufferId);
 
-	// Delete shader
-	glDeleteProgram(mShaderProgramId);
 }
 
 bool Graphics::InitGraphics(int scale, int row, int col)
 {
+    mScale          = scale;
     mRow            = row;
     mCol            = col;
-    mScale          = scale;
     mScreenWidth    = col * scale;
     mScreenHeight   = row * scale;
 
@@ -38,59 +33,19 @@ bool Graphics::InitGraphics(int scale, int row, int col)
     mMVPuniformLocation = glGetUniformLocation(mShaderProgramId, "MVP");
 
 	glGenBuffers(1, &mVertexBufferId);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+
 	glGenBuffers(1, &mColorBufferId);
+	glBindBuffer(GL_ARRAY_BUFFER, mColorBufferId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Colors), Colors, GL_STATIC_DRAW);
+
+    // The shader program used only in DrawSquare(float transX, float transY)
+    // It is okay to install it here
+    // In case of using more shaders, it may cause some trouble
+    glUseProgram(mShaderProgramId);
 
     return true;
-}
-
-void Graphics::Rendering()
-{
-    UpdateScreen();
-
-    // Draw moving tetromino
-    float transX = mTetromino->GetTopLeft()->col;
-    float transY = mTetromino->GetTopLeft()->row;
-
-    for(int row=0; row<mTetromino->GetHeight(); row++)
-    {
-        for(int col=0; col<mTetromino->GetWidth(); col++)
-        {
-            if(mTetromino->GetShape()[row][col] != 0)
-            {
-                DrawSquare2D(col + transX, row + transY, mTetromino->GetShape()[row][col]);
-            }
-        }
-    }
-
-    // Draw landed tetrominos
-    for(int row=0; row<mRow; row++)
-    {
-        for(int col=0; col<mCol; col++)
-        {
-            DrawSquare2D(col, row, mBoard->GetLanded()[row][col]);
-        }
-    }
-
-    SwapFrameBuffer();
-}
-
-void Graphics::SetWindowTitle(int score)
-{
-    char title[64];
-    sprintf(title, "Tetris - SCORE: %d - GAME OVER", score);
-    SDL_WM_SetCaption(title, NULL);
-}
-
-void Graphics::SetWindowTitle(int score, int gameSpeed)
-{
-    char title[64];
-    sprintf(title, "Tetris - SCORE: %d - Game speed: %d", score, gameSpeed);
-    SDL_WM_SetCaption(title, NULL);
-}
-
-void Graphics::SetWindowTitle(const char *title)
-{
-    SDL_WM_SetCaption(title, NULL);
 }
 
 bool Graphics::InitSDL()
@@ -141,21 +96,51 @@ bool Graphics::InitOpenGL()
     return true;
 }
 
-void Graphics::DrawSquare2D(float transX, float transY, int color)
+void Graphics::Rendering()
 {
-    glm::mat4 Projection2d  = glm::ortho(0.0f, float(mScreenWidth), float(mScreenHeight), 0.0f);
-    glm::mat4 scale         = glm::scale(glm::mat4(1.0f), glm::vec3(float(mScale)));
-    glm::mat4 translate     = glm::translate(glm::mat4(1.0f), glm::vec3(transX, transY, 0.0f));
-    glm::mat4 Transform     = scale * translate;
-    glm::mat4 Model         = glm::mat4(1.0f);
-    glm::mat4 MVP           = Projection2d * Transform * Model;
+    UpdateScreen();
 
-    glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, mColorBufferId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Colors[0]), Colors[color], GL_STATIC_DRAW);
+    // Draw moving tetromino
+    float transX = mTetromino->getTopLeft()->col;
+    float transY = mTetromino->getTopLeft()->row;
+    unsigned int **shape = mTetromino->getShape();
 
-    glUseProgram(mShaderProgramId);
+    for(int row=0; row<mTetromino->getHeight(); row++)
+    {
+        for(int col=0; col<mTetromino->getWidth(); col++)
+        {
+            if(shape[row][col] != 0)
+            {
+                DrawSquare(col + transX, row + transY);
+            }
+        }
+    }
+
+    // Draw landed tetrominos
+    for(int row=0; row<mRow; row++)
+    {
+        for(int col=0; col<mCol; col++)
+        {
+            if(mBoard->GetLanded()[row][col] != 0)
+            {
+                DrawSquare(col, row);
+            }
+        }
+    }
+
+    SwapFrameBuffer();
+}
+
+void Graphics::DrawSquare(float transX, float transY)
+{
+    glm::mat4 Projection2d = glm::ortho(0.0f, float(mScreenWidth), float(mScreenHeight), 0.0f);
+	glm::mat4 Model        = glm::mat4(1.0f);
+
+    glm::mat4 scale      = glm::scale(glm::mat4(1.0f), glm::vec3(float(mScale)));
+    glm::mat4 translate  = glm::translate(glm::mat4(1.0f), glm::vec3(transX, transY, 0.0f));
+    glm::mat4 Transform  = scale * translate;
+
+    glm::mat4 MVP        = Projection2d * Transform * Model;
 
 	glUniformMatrix4fv(mMVPuniformLocation, 1, GL_FALSE, &MVP[0][0]);
 
@@ -200,4 +185,16 @@ void Graphics::SwapFrameBuffer()
 {
     // Swap OpenGL framebuffer
     SDL_GL_SwapBuffers();
+}
+
+void Graphics::SetWindowTitle(unsigned int score, unsigned int gameSpeed)
+{
+    char title[64];
+    sprintf(title, "Tetris 3D - SCORE: %d - Game speed: %d", score, gameSpeed);
+    SDL_WM_SetCaption(title, NULL);
+}
+
+void Graphics::SetWindowTitle(const char *title)
+{
+    SDL_WM_SetCaption(title, NULL);
 }

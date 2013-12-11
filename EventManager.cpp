@@ -45,6 +45,13 @@ void EventManager::PollEvents()
     }
 }
 
+SDL_Event* EventManager::PollEvents2()
+{
+    SDL_PollEvent(&mSDLevent);
+
+    return &mSDLevent;
+}
+
 bool EventManager::isActualEvent(Events event)
 {
     if(mActualEvent == event)
