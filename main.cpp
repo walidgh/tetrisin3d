@@ -3,7 +3,7 @@
 
 #include <SDL/SDL.h>
 
-#include "Graphics.h"
+#include "GraphicsOld.h"
 #include "EventManager.h"
 #include "Tetromino.h"
 #include "Board.h"
@@ -24,12 +24,14 @@ int main(int argc, char *argv[])
     // Class instances
     Tetromino    tetromino;
     Board        board(10, 16);
-    Graphics     graphics(&tetromino, &board);
     Game         game(&tetromino, &board);
+    IGraphics   *graphics;
+
+    graphics = new GraphicsOld(&tetromino, &board);
 
     // Initializations
-    if(!graphics.InitGraphics(30, 16, 10)) return 0;
-    graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
+    if(!graphics->InitGraphics(30, 16, 10)) return 0;
+    graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
     board.InitBoard();
 
 //    EventManager events;
@@ -123,7 +125,7 @@ int main(int argc, char *argv[])
                                     if(gameSpeed > 100)
                                     {
                                         gameSpeed -= 100;
-                                        graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
+                                        graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
                                     }
                                 }
                                 break;
@@ -133,7 +135,7 @@ int main(int argc, char *argv[])
                                     if(gameSpeed < 1500)
                                     {
                                         gameSpeed += 100;
-                                        graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
+                                        graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
                                     }
                                 }
                                 break;
@@ -156,7 +158,7 @@ int main(int argc, char *argv[])
         }
 
         // Rendering
-        graphics.Rendering();
+        graphics->Rendering();
 
         // Timed vertical movement
         unsigned long timeEnd = SDL_GetTicks();
@@ -188,7 +190,7 @@ int main(int argc, char *argv[])
 
             game.DeleteLines(&score);
 
-            graphics.SetWindowTitle(score, (1600 - gameSpeed)/100);
+            graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
 
             timeStart = SDL_GetTicks();
         }
@@ -196,7 +198,7 @@ int main(int argc, char *argv[])
 	}
 
 	// Game loop for game over state
-	graphics.SetWindowTitle(score);
+	graphics->SetWindowTitle(score);
 	run = true;
 	while(run)
     {
@@ -225,8 +227,11 @@ int main(int argc, char *argv[])
         }
 
         // Rendering
-        graphics.Rendering();
+        graphics->Rendering();
     }
+
+    // Clean up
+    delete graphics;
 
 	return 0;
 }

@@ -1,5 +1,5 @@
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef GRAPHICSOLD_H
+#define GRAPHICSOLD_H
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -8,12 +8,12 @@
 #include "Tetromino.h"
 #include "Board.h"
 
-class Graphics : public IGraphics
+class GraphicsOld : public IGraphics
 {
     public:     // Functions
 
-        Graphics(Tetromino *tetromino, Board *board);   // Constructor
-        ~Graphics();                                    // Destructor
+        GraphicsOld(Tetromino *tetromino, Board *board);   // Constructor
+        ~GraphicsOld();                                    // Destructor
 
         bool InitGraphics(int scale, int row, int col); // Initializes core graphic and display settings
 
@@ -38,13 +38,6 @@ class Graphics : public IGraphics
         // SDL stuff
         SDL_Surface *mScreen;   // SDL screen
 
-        // OpenGL stuff
-        GLuint mShaderProgramId;        // OpenGL shader program id
-
-        GLuint  mVertexBufferId;        // Vertex buffer id
-        GLuint  mColorBufferId;         // Color buffer id
-        GLuint  mMVPuniformLocation;    // MVP matrix uniform location id
-
     private:    // Functions
 
         bool InitSDL();         // Initializes SDL
@@ -68,79 +61,40 @@ class Graphics : public IGraphics
     };
 
     // Colors for tetrominos
-    static const GLfloat Colors[8][18] =
+    static const GLfloat Colors[8][3] =
     {
         {
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
-            0.0f, 0.0f, 0.3f,
             0.0f, 0.0f, 0.3f
         },
 
         {
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
-            0.525f, 0.0f, 0.62f,
             0.525f, 0.0f, 0.62f
         },
 
         {
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
-            0.62f, 0.0f, 0.0f,
             0.62f, 0.0f, 0.0f
         },
 
         {
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
-            0.0f, 0.216f, 0.62f,
             0.0f, 0.216f, 0.62f
         },
 
         {
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
-            0.788, 0.498, 0.024,
             0.788, 0.498, 0.024
         },
 
         {
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
-            0.027, 0.522, 0.671,
             0.027, 0.522, 0.671
         },
 
         {
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
-            0.024, 0.569, 0.133,
             0.024, 0.569, 0.133
         },
 
         {
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
-            0.839, 0.839, 0.035,
             0.839, 0.839, 0.035
         }
     };
 
-#endif // GRAPHICS_H
+
+#endif // GRAPHICSOLD_H
