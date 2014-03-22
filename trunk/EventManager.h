@@ -25,8 +25,9 @@ class EventManager
 
         bool isActualEvent(Events event);   // Checks the actual event
 
-        bool isKeyDown(SDLKey key);         // Checks is key pressed
-        bool isKeyUp(SDLKey key);           // Checks is key released
+        bool isKeyDown(SDLKey key);         // Checks is key down
+        bool isKeyUp(SDLKey key);           // Checks is key up
+        bool isKeyPressed(SDLKey key);      // Checks is key pressed
 
     private:    // Variables
 
@@ -36,6 +37,7 @@ class EventManager
 
         bool mKeysDown[400];    // Pressed keys
         bool mKeysUp[400];      // Released keys
+        bool mIsKeyPressed;        // Holds "key is down" status
 };
 
 #endif // EVENTMANAGER_H

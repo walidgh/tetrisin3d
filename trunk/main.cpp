@@ -34,131 +34,97 @@ int main(int argc, char *argv[])
     graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
     board.InitBoard();
 
-//    EventManager events;
+    EventManager events;
 
     unsigned long timeStart = SDL_GetTicks();
 
-    SDL_Event event;
+    //SDL_Event event;
     bool run = true;
 	while (run)
 	{
-	    // Event handling for continuous actions
-//	    events.PollEvents();
-//
-//        if(events.isKeyDown(SDLK_ESCAPE)) break;
-//
-//        if(events.isActualEvent(WINDOW_CLOSE)) break;
+	    // Keyboard event handling
+	    events.PollEvents();
 
-        // Event handling for fractional actions
-        while(SDL_PollEvent(&event))
+        if(events.isActualEvent(WINDOW_CLOSE)) break;
+
+        if(events.isKeyPressed(SDLK_ESCAPE)) break;
+
+        if(events.isKeyPressed(SDLK_RIGHT))
         {
-            switch(event.type)
-                {
-                    case SDL_KEYDOWN:
-                        switch(event.key.keysym.sym)
-                        {
-                            case SDLK_LEFT:
-                                {
-                                    tetromino.GetPotentialTopLeft()->col -= 1;
-                                    if(game.CheckCollisionWithBorder())
-                                    {
-                                        tetromino.GetPotentialTopLeft()->col += 1;
-                                    }
-                                    else
-                                    {
-                                        tetromino.Move();
-                                    }
-                                }
-                                break;
-
-                            case SDLK_RIGHT:
-                                {
-                                    tetromino.GetPotentialTopLeft()->col += 1;
-                                    if(game.CheckCollisionWithBorder())
-                                    {
-                                        tetromino.GetPotentialTopLeft()->col -= 1;
-                                    }
-                                    else
-                                    {
-                                        tetromino.Move();
-                                    }
-                                }
-                                break;
-
-                            case SDLK_DOWN:
-                                {
-                                    tetromino.GetPotentialTopLeft()->row += 1;
-                                    if(game.CheckCollisionWithLanded())
-                                    {
-                                        tetromino.GetPotentialTopLeft()->row -= 1;
-                                        board.LandShape(&tetromino);
-
-                                        // Check game over
-                                        if(game.CheckGameOver())
-                                        {
-                                            run = false;
-                                        }
-                                        else
-                                        {
-                                            tetromino.NewShape();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        tetromino.Move();
-                                    }
-                                }
-                                break;
-
-                            case SDLK_r:
-                                {
-                                    tetromino.RotatePotential();
-                                    if(!game.CheckCollisionWhenRotated())
-                                    {
-                                        tetromino.Rotate();
-                                    }
-                                }
-                                break;
-
-                            case SDLK_PAGEUP:
-                                {
-                                    if(gameSpeed > 100)
-                                    {
-                                        gameSpeed -= 100;
-                                        graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
-                                    }
-                                }
-                                break;
-
-                            case SDLK_PAGEDOWN:
-                                {
-                                    if(gameSpeed < 1500)
-                                    {
-                                        gameSpeed += 100;
-                                        graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
-                                    }
-                                }
-                                break;
-
-                            case SDLK_ESCAPE:
-                                run = false;
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case SDL_QUIT:
-                        run = false;
-
-                    default:
-                        break;
-                }
+            tetromino.GetPotentialTopLeft()->col += 1;
+            if(game.CheckCollisionWithBorder())
+            {
+                tetromino.GetPotentialTopLeft()->col -= 1;
+            }
+            else
+            {
+                tetromino.Move();
+            }
         }
 
-        // Rendering
-        graphics->Rendering();
+        if(events.isKeyPressed(SDLK_LEFT))
+        {
+            tetromino.GetPotentialTopLeft()->col -= 1;
+            if(game.CheckCollisionWithBorder())
+            {
+                tetromino.GetPotentialTopLeft()->col += 1;
+            }
+            else
+            {
+                tetromino.Move();
+            }
+        }
+
+        if(events.isKeyDown(SDLK_DOWN))
+        {
+            tetromino.GetPotentialTopLeft()->row += 1;
+            if(game.CheckCollisionWithLanded())
+            {
+                tetromino.GetPotentialTopLeft()->row -= 1;
+                board.LandShape(&tetromino);
+
+                // Check game over
+                if(game.CheckGameOver())
+                {
+                    run = false;
+                }
+                else
+                {
+                    tetromino.NewShape();
+                }
+            }
+            else
+            {
+                tetromino.Move();
+            }
+        }
+
+        if(events.isKeyPressed(SDLK_r))
+        {
+            tetromino.RotatePotential();
+            if(!game.CheckCollisionWhenRotated())
+            {
+                tetromino.Rotate();
+            }
+        }
+
+        if(events.isKeyPressed(SDLK_PAGEUP))
+        {
+            if(gameSpeed > 100)
+            {
+                gameSpeed -= 100;
+                graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
+            }
+        }
+
+        if(events.isKeyPressed(SDLK_PAGEDOWN))
+        {
+            if(gameSpeed < 1500)
+            {
+                gameSpeed += 100;
+                graphics->SetWindowTitle(score, (1600 - gameSpeed)/100);
+            }
+        }
 
         // Timed vertical movement
         unsigned long timeEnd = SDL_GetTicks();
@@ -195,6 +161,8 @@ int main(int argc, char *argv[])
             timeStart = SDL_GetTicks();
         }
 
+        // Rendering
+        graphics->Rendering();
 	}
 
 	// Game loop for game over state
@@ -202,29 +170,9 @@ int main(int argc, char *argv[])
 	run = true;
 	while(run)
     {
-        while(SDL_PollEvent(&event))
-        {
-            switch(event.type)
-                {
-                    case SDL_KEYDOWN:
-                        switch(event.key.keysym.sym)
-                        {
-                            case SDLK_ESCAPE:
-                                run = false;
-                                break;
-
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case SDL_QUIT:
-                        run = false;
-
-                    default:
-                        break;
-                }
-        }
+        events.PollEvents();
+        if(events.isKeyPressed(SDLK_ESCAPE)) break;
+        if(events.isActualEvent(WINDOW_CLOSE)) break;
 
         // Rendering
         graphics->Rendering();

@@ -7,6 +7,8 @@ EventManager::EventManager()
         mKeysDown[i] = false;
         mKeysUp[i]   = false;
     }
+
+    mIsKeyPressed = false;
 }
 
 EventManager::~EventManager()
@@ -34,6 +36,7 @@ void EventManager::PollEvents()
         case SDL_KEYUP:
             mKeysDown[mSDLevent.key.keysym.sym] = false;
             mKeysUp[mSDLevent.key.keysym.sym] = true;
+            mIsKeyPressed = false;
             break;
 
         case SDL_QUIT:
@@ -67,4 +70,14 @@ bool EventManager::isKeyUp(SDLKey key)
     bool b = mKeysUp[key];
     mKeysUp[key] = false;
     return b;
+}
+
+bool EventManager::isKeyPressed(SDLKey key)
+{
+    if(mKeysDown[key] && !mIsKeyPressed)
+    {
+        mIsKeyPressed = true;
+        return true;
+    }
+    return false;
 }
